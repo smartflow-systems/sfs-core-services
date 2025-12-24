@@ -1,7 +1,9 @@
 import { StatsCard } from "@/components/StatsCard";
-import { Users, DollarSign, Activity, TrendingUp } from "lucide-react";
+import { Users, DollarSign, Activity, TrendingUp, Plus } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { PageHeader } from "@/components/PageHeader";
 
 export default function DashboardPage() {
   const recentActivity = [
@@ -13,11 +15,21 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold mb-2">Overview</h1>
-        <p className="text-muted-foreground">Monitor your application metrics and activity</p>
-      </div>
-      
+      <PageHeader
+        title="Dashboard"
+        description="Welcome back! Monitor your application metrics and activity."
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Dashboard" }
+        ]}
+        action={
+          <Button className="bg-gradient-to-r from-[hsl(var(--sf-gold))] to-[hsl(var(--sf-gold-bright))] text-[hsl(var(--sf-black))] hover:shadow-lg">
+            <Plus className="mr-2 h-4 w-4" />
+            Create New
+          </Button>
+        }
+      />
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatsCard
           title="Total Users"
