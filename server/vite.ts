@@ -5,6 +5,7 @@ import { createServer as createViteServer, createLogger } from "vite";
 import { type Server } from "http";
 import viteConfig from "../vite.config";
 import { nanoid } from "nanoid";
+import rateLimit from "express-rate-limit";
 
 const viteLogger = createLogger();
 
@@ -78,8 +79,13 @@ export function serveStatic(app: Express) {
 
   app.use(express.static(distPath));
 
+  const staticFallbackLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+  });
+
   // fall through to index.html if the file doesn't exist
-  app.use("*", (_req, res) => {
+  app.use("*", staticFallbackLimiter, (_req, res) => {
     res.sendFile(path.resolve(distPath, "index.html"));
   });
 }
